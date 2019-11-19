@@ -123,6 +123,29 @@
         }
     };
 
+    //浅拷贝对象属性,用户自定义属性覆盖默认属性
+    //赋值 栈 堆, 基本数据类型 值传递, 引用数据类型 地址传递, 浅拷贝 深拷贝 
+    function extend(o, n, override){
+        for(var p in n){
+            if(n.hasOwnProperty(p) && (!o.hasOwnProperty(p) || override)){
+                o[p] = n[p];
+            }
+        }
+    }
+    //模仿 jQquery $()
+    //
+    function $(selector, context){
+        context = arguments.length>1 ? context : document;
+        return context ? context.querySelectorAll(selector) : null;
+    }
+    //插件对象配置
+    var Pagination = function(selector, pageOption){
+        
+    };
+
+
+
+
     // 分页
     /*
     * page 当前页码， total 总页数， show 显示列数偏移量
