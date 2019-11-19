@@ -16,7 +16,13 @@
 }(typeof self !== 'undefined' ? self : this, function(){
     'use strict';
     
-    // 事件操作 使用跨浏览器 EventUtil 对象
+    //元素类名
+    var CLASS_NAME = {
+        ITEM: 'pagination-item',
+        LINK: 'paginstion-link'
+    };
+
+    // 事件操作 使用跨浏览器 EventUtil 对象,兼容各类浏览器
     var EventUtil = {
         //添加事件
         addHandler: function(element, type, handler){
@@ -91,7 +97,28 @@
                     case 5:
                     case 7: 
                         return 0; //按下的是鼠标主按钮(一般是左键)
-                }
+                    case 2:
+                    case 6:
+                        return 2; //按下的事中间的鼠标按钮
+                    case 4:
+                        return 1; //鼠标次按钮(一般是右键)
+                };
+            }
+        },
+        //获取表示鼠标滚轮方向的数值
+        getWheelDelta: function(event){
+            if(event.wheelDelta){
+                return event.wheelDelta;
+            }else {
+                return -event.detail*40;
+            }
+        },
+        //以跨浏览器取得相同的字符编码,需在 keypress 事件中使用
+        getCharCode: function(event){
+            if(typeof event.charCode=="number"){
+                return event.charCode;
+            }else {
+                return event.keyCode;
             }
         }
     };
@@ -164,7 +191,7 @@
         return str.trim();
     }
     */
-   /* 3.0 优化版 */
+   /* 3.0 优化版 
    function showPages(page, total, show) {
         var str = page+'';
         for(var i=1; i<=show;i++){
@@ -189,5 +216,5 @@
         }
         return str.trim();
     }
-
+    */
 }));
