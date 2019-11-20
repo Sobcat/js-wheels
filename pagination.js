@@ -23,6 +23,7 @@
     };
 
     // 事件操作 使用跨浏览器 EventUtil 对象,兼容各类浏览器
+    // https://www.cnblogs.com/hykun/p/EventUtil.html
     var EventUtil = {
         //添加事件
         addHandler: function(element, type, handler){
@@ -140,7 +141,19 @@
     }
     //插件对象配置
     var Pagination = function(selector, pageOption){
-        
+        //默认参数
+        this.options = {
+            curr: 1, //当前页
+            pageShow: 2, //左右页数偏移量
+            ellipsis: true, //是否显示缩略点
+            hash: false //
+        };
+        //用户定义参数覆盖默认参数
+        extend(this.options, pageOption, true);
+        //分页器元素
+        this.pageElement = $(selector)[0];
+        //数据总数
+        this.dataCount = this.options.count;
     };
 
 
