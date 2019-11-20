@@ -154,6 +154,18 @@
         this.pageElement = $(selector)[0];
         //数据总数
         this.dataCount = this.options.count;
+        //当前页码
+        this.pageNumber = this.options.curr;
+        //总页数
+        this.pageCount = Math.ceil(this.options.count/this.options.limit);
+        //渲染
+        this.renderPages();
+        //执行回调函数
+        this.options.callback && this.options.callback({
+            curr: this.pageNumber,
+            limit: this.options.limit,
+            isFirst: true
+        });
     };
 
 
