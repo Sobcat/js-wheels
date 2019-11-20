@@ -166,8 +166,13 @@
             limit: this.options.limit,
             isFirst: true
         });
+        //改变页数并触发事件
+        this.changePage();
     };
-
+    //添加到 Pagination 原型上
+    Pagination.prototype = {
+        
+    };
 
 
 
