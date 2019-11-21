@@ -146,7 +146,7 @@
             curr: 1, //当前页
             pageShow: 2, //左右页数偏移量
             ellipsis: true, //是否显示缩略点
-            hash: false //
+            hash: false //url # 锚点
         };
         //用户定义参数覆盖默认参数
         extend(this.options, pageOption, true);
@@ -169,10 +169,74 @@
         //改变页数并触发事件
         this.changePage();
     };
-    //添加到 Pagination 原型上
+    //添加到 Pagination 原型上 省资源 继承同一套
+    // _proto_ 原型链 constructor 表示构成此对象的构造函数 prototype 函数特有 表示函数的原型对象包含 constructor 和继承过来 _proto_
     Pagination.prototype = {
-        
-        
+        //创建对象的构造函数
+        constructor: Pagination,
+        pageInfos: [
+            {
+                id: 'first',
+                content: '首页'
+            },
+            {
+                id: 'prev',
+                content: '前一页'
+            },
+            {
+                id: 'next',
+                content: '后一页'
+            },
+            {
+                id: 'last',
+                content: '尾页'
+            },
+            {
+                id: '',
+                content: '...'
+            }
+        ],
+        getPageInfos: function(className, content){
+            return {
+                id: "page",
+                className: className,
+                content: content
+            };
+        },
+        changePage: function(){
+            var self = this;
+            var pageElement = self.pageElement;
+            EventUtil.addEvent(pageElement, 'click', function(ev){
+                var e = ev || window.event;
+                var target = e.target || e.srcElement;
+                if(target.nodeName.toLocaleLowerCase() == 'a'){
+                    if(target.id === 'prev'){
+                        self.prevPage();
+                    }else if(target.id === 'next'){
+                        self.nextPage();
+                    }else if(target.id === 'first'){
+                        self.firstPage();
+                    }else if(target.id === 'last'){
+                        self.lastPage();
+                    }else if(target.id === 'page'){
+                        self.goPage(parseInt(target.innerHTML));
+                    }else {
+                        return;
+                    }
+                    self.renderPages();
+                    self.options.callback && self.options.callback({
+                        curr: self.pageNumber,
+                        limit: self.options.limit,
+                        isFirst: false
+                    });
+                    self.pageHash();
+                }
+            });
+        },
+        //跳转到 # 锚点
+        pageHash: function(){
+
+        }
     };
 
 
