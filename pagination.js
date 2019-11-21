@@ -233,9 +233,24 @@
                 }
             });
         },
-        //跳转到 # 锚点
+        //跳转到 # 锚点 让 ajax 刷新数据之后浏览器有历史记录
         pageHash: function(){
-
+            if(this.options.hash){
+                window.location.hash = '#!'+this.options.hash+'='+this.pageNumber;
+            }
+        },
+        //渲染
+        renderPages: function(){
+            this.pageElement.innerHTML = '';
+            if(this.options.ellipsis){
+                this.pageElement.appendChild(this.renderEllipsis());
+            }else {
+                this.pageElement.appendChild(this.renderNoEllipsis());
+            }
+        },
+        //渲染无省略点
+        renderNoEllipsis: function(){
+            var fargment = document.createDocumentFragment(); //先创建个虚拟节点, 这个方法能更安全地改变文档的结构及节点
         }
     };
 
