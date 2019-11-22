@@ -250,8 +250,77 @@
         },
         //渲染无省略点
         renderNoEllipsis: function(){
-            var fargment = document.createDocumentFragment(); //先创建个虚拟节点, 这个方法能更安全地改变文档的结构及节点
-        }
+            var fragment = document.createDocumentFragment(); //先创建个虚拟节点, 这个方法能更安全地改变文档的结构及节点
+            if(this.pageNumber < this.options.pageShow+1){
+                //从第一页开始
+                fragment.appendChild(this.renderDom(1,this.options.pageShow*2+1));
+            }else if( this.pageNumber > this.pageCount-this.options.pageShow ){
+                //到最后一页
+                fragment.appendChild(this.renderDom(this.pageCount-this.options.pageShow*2,this.pageCount));
+            }else {
+                //中间的页数
+                fragment.appendChild(this.renderDom(this.pageNumber-this.options.pageShow,this.pageNumber+this.options.pageShow));
+            }
+            if(this.pageNumber>1){
+                this.addFragmentBefore(fragment,[
+                    this.pageInfos[0],
+                    this.pageInfos[1]
+                ]);
+            }
+            if(this.pageNumber<this.pageCount){
+                this.addFragmentAfter(fragment,[
+                    this.pageInfos[2],
+                    this.pageInfos[3]
+                ]);
+            }
+            return fragment;
+        },
+        //有省略点
+        renderEllipsis: function(){
+            var fragment = document.createDocumentFragment();
+            this.addFragmentAfter(fragment,[
+                this.getPageInfos(CLASS_NAME.LINK+' current', this.pageNumber)
+            ]);
+            for(var i=1;i<=this.options.pageShow;i++){
+                if(this.pageNumber-i>1){
+                    this.addFragmentBefore(fragment,[
+                        this.getPageInfos(CLASS_NAME.LINK, this.pageNumber-i)
+                    ]);
+                }
+                if(this.pageNumber+i<this.pageCount){
+                    this.addFragmentAfter(fragment,[
+                        this.getPageInfos(CLASS_NAME.LINK, this.pageNumber+i)
+                    ]);
+                }
+            }
+            if(this.pageNumber-(this.options.pageShow+1)>1){
+                this.addFragmentBefore(fragment,[
+                    this.pageInfos[4]
+                ]);
+            }
+            if(this.pageNumber>1){
+                this.addFragmentBefore(fragment, [
+                    this.pageInfos[0],
+                    this,this.pageInfos[1],
+                    this.getPageInfos(CLASS_NAME.LINK, 1)
+                ])
+            }
+            if(this.pageNumber+this.options.pageShow+1<this.pageCount){
+                this.addFragmentAfter(fragment, [
+                    this.pageInfos[4]
+                ]);
+            }
+            if(this.pageNumber<this.pageCount){
+                this.addFragmentAfter(fragment, [
+                    this.getPageInfos(CLASS_NAME.LINK, this.pageCount),
+                    this.pageInfos[2],
+                    this.pageInfos[3]
+                ]);
+            }
+            return fragment;
+        },
+        //渲染DOM
+        renderDom: function(begin){}
     };
 
 
