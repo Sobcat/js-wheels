@@ -319,10 +319,64 @@
             }
             return fragment;
         },
+        //渲染左边
+        addFragmentBefore: function(fragment, datas){
+            fragment.insertBefore(this.creatHtml(datas), fragment.firstChild);
+        },
+         //渲染左边
+         addFragmentAfter: function(fragment, datas){
+            fragment.appendChild(this.creatHtml(datas));
+        },
+        creatHtml: function(elemDatas){
+            var seft = this;
+            var fragment = document.createDocumentFragment();
+            var liEle = document.createElement('li');
+            var aEle = document.createElement('a');
+            elemDatas.forEach(function(elementData,index){
+                liEle = liEle.cloneNode(false);
+                aEle = aEle.cloneNode(false);
+                liEle.setAttribute('class',CLASS_NAME.ITEM);
+                aEle.setAttribute('href',"javascrit:;");
+                aEle.setAttribute('id',elementData.id);
+                if(elementData.id!=='page'){
+                    aEle.setAttribute('class',CLASS_NAME.ITEM);
+                }else {
+                    aEle.setAttribute('id',elementData.className);
+                }
+                aEle.innerHTML = elementData.content;
+                liEle.appendChild(aEle);
+                fragment.appendChild(liEle);
+            });
+            return fragment;
+        },
         //渲染DOM
-        renderDom: function(begin){}
+        renderDom: function(begin, end){
+            var fragment = document.createDocumentFragment();
+            var str = '';
+            for(var i=begin;i<=end;i++){
+                str = this.pageNumber===i?CLASS_NAME.LINK+"current":CLASS_NAME.LINK;
+                this.addFragmentAfter(fragment, [this.getPageInfos(str,i)]);
+            }
+            return fragment;
+        },
+        prevPage: function(){
+            this.pageNumber--;
+        },
+        nextPage: function(){
+            this.pageNumber++;
+        },
+        goPage: function(pageNumber){
+            this.pageNumber = pageNumber;
+        },
+        firstPage: function(){
+            this.pageNumber = 1;
+        },
+        lastPage: function(){
+            this.pageNumber = this.pageCount;
+        }
     };
 
+    return Pagination;
 
 
     // 分页
