@@ -6,6 +6,8 @@
 *
 */
 
+// $('id').css().css()
+
 ;(function(){
     var $ = function(str){
         var base = new Base();
