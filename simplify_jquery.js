@@ -3,7 +3,7 @@
 * 造别人的轮子, 开自己的车
 * JavaScript 练习
 * 简化版的 JQuery 选择器原理
-*
+* ai
 */
 
 // $('id').css().css()
