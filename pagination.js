@@ -29,8 +29,7 @@
         addHandler: function(element, type, handler){
             if(element.addEventListener){
                 //使用dom2级方法添加事件
-                element.addEventListener(type, handler, false);
-            }else if(element.attachEvent){
+                element.addEventListener(type, handler, false);20 
                 //使用ie方法添加事件
                 element.attachEvent('on'+type, handler);
             }else{
